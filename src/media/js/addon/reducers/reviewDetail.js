@@ -23,7 +23,11 @@ const initialState = {
 export default function addonReviewDetailReducer(state=initialState, action) {
   switch (action.type) {
     case addonActions.FETCH_OK: {
-      // Store single add-on.
+      /*
+        Store single add-on.
+
+        payload (object) -- add-on.
+      */
       const newState = _.cloneDeep(state);
 
       newState.addons[action.payload.slug] = action.payload;
@@ -31,7 +35,13 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case addonActions.FETCH_VERSIONS_OK: {
-      // Attach versions to their respective addon.
+      /*
+        Attach versions to their respective addon.
+
+        payload (object) --
+          addonSlug (string): slug of the add-on the versions are related to.
+          versions (array): version objects.
+      */
       const newState = _.cloneDeep(state);
 
       // Create add-on if it doesn't exist, just in case.
@@ -49,7 +59,11 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case reviewActions.FETCH_OK: {
-      // Store add-ons from the review queue.
+      /*
+        Store add-ons from the review queue.
+
+        payload (array) -- add-ons.
+      */
       const newState = _.cloneDeep(state);
 
       action.payload.forEach(addon => {
@@ -59,7 +73,13 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case reviewActions.PUBLISH_ERROR: {
-      // Set add-on version as no longer publishing.
+      /*
+        Set add-on version as no longer publishing.
+
+        payload (object) --
+          addonSlug (string): slug of the add-on attempting to be published.
+          versionId (number): ID of version attempting to be published.
+      */
       const newState = _.cloneDeep(state);
       const {addonSlug, versionId} = action.payload;
 
@@ -68,7 +88,13 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case reviewActions.PUBLISH_OK: {
-      // Set add-on version status as published.
+      /*
+        Set add-on version status as published.
+
+        payload (object) --
+          addonSlug (string): slug of the add-on published.
+          versionId (number): ID of version published.
+      */
       const newState = _.cloneDeep(state);
       const {addonSlug, versionId} = action.payload;
 
@@ -79,7 +105,13 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case reviewActions.PUBLISH_PENDING: {
-      // Set add-on version as publishing.
+      /*
+        Set add-on version as publishing.
+
+        payload (object) --
+          addonSlug (string): slug of the add-on attempting to be published.
+          versionId (number): ID of version attempting to be published.
+      */
       const newState = _.cloneDeep(state);
       const {addonSlug, versionId} = action.payload;
 
@@ -88,7 +120,13 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case reviewActions.REJECT_ERROR: {
-      // Set add-on version as no longer rejecting.
+      /*
+        Set add-on version as no longer rejecting.
+
+        payload (object) --
+          addonSlug (string): slug of the add-on attempting to be rejected.
+          versionId (number): ID of version attempting to be rejected.
+      */
       const newState = _.cloneDeep(state);
       const {addonSlug, versionId} = action.payload;
 
@@ -97,8 +135,14 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case reviewActions.REJECT_OK : {
-      // Set add-on version status as rejected.
-      // Set add-on version status as no longer rejecting.
+      /*
+        Set add-on version status as rejected.
+        Set add-on version status as no longer rejecting.
+
+        payload (object) --
+          addonSlug (string): slug of the add-on rejected.
+          versionId (number): ID of version rejected.
+      */
       const newState = _.cloneDeep(state);
       const {addonSlug, versionId} = action.payload;
 
@@ -109,7 +153,13 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case reviewActions.REJECT_PENDING: {
-      // Set add-on version as rejecting.
+      /*
+        Set add-on version as rejecting.
+
+        payload (object) --
+          addonSlug (string): slug of the add-on attempting to be rejected.
+          versionId (number): ID of version attempting to be rejected.
+      */
       const newState = _.cloneDeep(state);
       const {addonSlug, versionId} = action.payload;
 
@@ -118,7 +168,11 @@ export default function addonReviewDetailReducer(state=initialState, action) {
     }
 
     case submitActions.SUBMIT_OK: {
-      // Add new submission to the review queue.
+      /*
+        Add new submission to the review queue.
+
+        payload (object) -- add-on.
+      */
       const newState = _.cloneDeep(state);
 
       newState.addons[action.payload.slug] = action.payload;
