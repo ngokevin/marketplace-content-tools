@@ -1,3 +1,6 @@
+/*
+  Note-related components for communication.
+*/
 import React from 'react';
 
 
@@ -16,7 +19,7 @@ const NOTE_TYPES = {
 };
 
 
-export default class Note extends React.Component {
+export class Note extends React.Component {
   static propTypes = {
     author: React.PropTypes.string.isRequired,
     created: React.PropTypes.string.isRequired,
@@ -49,6 +52,57 @@ export default class Note extends React.Component {
           }
         </dl>
       </li>
+    );
+  }
+}
+
+
+export class NoteSubmit extends React.Component {
+  static propTypes = {
+    submitNote: React.PropTypes.func.isRequired,
+    threadId: React.PropTypes.number.isRequired,
+    versionId: React.PropTypes.number.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false,
+      text: ''
+    };
+  }
+
+  handleTextChange = e => {
+    this.setState({text: e.target.value});
+  }
+
+  toggle = () => {
+    this.setState({isVisible: !this.state.isVisible});
+  }
+
+  submitNote = e => {
+    e.preventDefault();
+    this.props.submitNote(this.props.threadId, this.props.versionId,
+                          this.state.text);
+  }
+
+  render() {
+    return (
+      <div class="note-submit">
+        <button onClick={this.toggle}>
+          {this.state.isVisible ? 'Cancel Reply' : 'Reply'}
+        </button>
+
+        {this.state.isVisible &&
+          <form>
+            <textarea onChange={this.handleTextChange}
+                      value={this.state.text}/>
+            <button disabled={!this.state.text} onClick={this.submitNote}>
+              Submit
+            </button>
+          </form>
+        }
+      </div>
     );
   }
 }
