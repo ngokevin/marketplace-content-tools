@@ -10,10 +10,10 @@ import {bindActionCreators} from 'redux';
 
 import AddonVersionListingContainer from './versionListing';
 import {fetch as fetchAddon, install as installAddon} from '../actions/addon';
-import {Addon} from '../components/addon';
+import {AddonForReviewDetail} from '../components/addon';
 import AddonInstall from '../components/install';
 import AddonSubnav from '../components/addonSubnav';
-import {Page} from '../../site/components/page';
+import {Page, PageSection} from '../../site/components/page';
 
 
 export class AddonReviewDetail extends React.Component {
@@ -45,15 +45,19 @@ export class AddonReviewDetail extends React.Component {
     return (
       <Page title={`Reviewing Firefox OS Add-on: ${addon.name}`}
             subnav={<AddonSubnav user={this.props.user}/>}>
-        <Addon {...addon} showWaitingTime={true}/>
+        <AddonForReviewDetail {...addon}/>
 
-        <AddonInstall
-          install={this.props.installAddon}
-          installErrorMessage={addon.installErrorMessage}
-          isInstalled={addon.isInstalled}
-          isInstalling={addon.isInstalling}
-          manifestUrl={addon.latest_version.reviewer_mini_manifest_url}
-          slug={addon.slug}/>
+        {addon.latest_version &&
+          <PageSection title="Install Add-on">
+            <AddonInstall
+              install={this.props.installAddon}
+              installErrorMessage={addon.installErrorMessage}
+              isInstalled={addon.isInstalled}
+              isInstalling={addon.isInstalling}
+              manifestUrl={addon.latest_version.reviewer_mini_manifest_url}
+              slug={addon.slug}/>
+          </PageSection>
+        }
 
         <Provider store={this.context.store}>
           {() => <AddonVersionListingContainer showReviewActions={true}/>}
